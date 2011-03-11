@@ -1,0 +1,8 @@
+<div class="stars">
+  <h2>People Following You</h2>
+  <ul>
+    <% user.stars.each do |star| %>
+      <li><%=link_to star.username, stream_path(star.username) %></li>
+    <% end %>
+  </ul>
+</div>

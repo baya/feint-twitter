@@ -1,0 +1,37 @@
+
+<div id="u-diag">
+  <div class="bio">
+    <img class="avatar" \>
+    <strong><%=h @user.username %></strong>
+    <span><%=h @user.full_name %></span>
+    <p><%=h @user.bio %></p>
+  </div>
+  <% unless current_user == @user %>
+    <% if current_user and current_user.is_a_fans?(@user) %>
+      <% form_tag del_follows_path, :class => "follow" do %>
+      <%= hidden_field_tag "star_id", @user.id %>
+      <%= submit_tag "unfollow" %>
+    <% end %>
+  <% else %>
+    <% form_tag follows_path, :class => "follow" do %>
+    <%= hidden_field_tag "star_id", @user.id %>
+    <%= submit_tag "follow" %>
+  <% end %>
+<% end %>
+<% end %>
+</div>
+
+<div id="b-pannel">
+  <div class="messages">
+    <% @messages.each do |msg| %>
+      <div class="msg">
+        <p><%=link_to @user.username, stream_path(@user.username) %><span><%=h msg.body %></span></p>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div id="r-pannel">
+  <%= render :partial => "stars", :locals => {:user => @user } %>
+  <%= render :partial => "fans", :locals => {:user => @user } %>
+</div>

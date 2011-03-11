@@ -1,0 +1,13 @@
+
+<h1>Login</h1>
+<% form_tag "/session", :id => "session" do %>
+<div>
+  <label>User Name</label>
+  <%= text_field_tag "username" %>
+</div>
+<div>
+  <label>Password</label>
+  <%= password_field_tag "password" %>
+</div>
+<%= submit_tag "Login" %>
+<% end %>

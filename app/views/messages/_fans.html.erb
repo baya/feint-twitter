@@ -1,0 +1,8 @@
+<div class="fans">
+  <h2>People You Following</h2>
+  <ul>
+    <% user.fans.each do |fan| %>
+      <li><%=link_to fan.username, stream_path(fan.username) %></li>
+    <% end %>
+  </ul>
+</div>

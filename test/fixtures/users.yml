@@ -1,0 +1,7 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+jim:
+  username: jim
+  full_name: jimbang
+  email:    jim@t.com
+  password: 123456
