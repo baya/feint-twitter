@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :messages
+  map.resources :messages, :collection => { :realtime => :get }
   map.resources :users
   map.resources :follows, :only => [:create], :collection => { :del => :post }
   map.resource :session

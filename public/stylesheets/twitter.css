@@ -1,0 +1,20 @@
+input{width:254px;height:30px;font-size:16px;}
+textarea{font-size:16px;}
+input:focus, textarea:focus{background:#ffc;}
+input.submit{width:80px; margin-top:8px;height:30px;font-size:16px;}
+div.form label {float:left;width:78px;}
+div.form .submit{margin:14px 0 0 206px;}
+div.field{margin-top:8px;}
+#session {width:400px;margin:auto;}
+
+div#content{position:relative;}
+div#say-box textarea{width:468px;height:80px;}
+div#mb{width:550px;}
+div#r-pannel{width:350px;margin-left:540px;position:absolute;top:140px;}
+
+div.msg{margin:8px;}
+span.user-name{width:2em;margin-right:1em;float:left;}
+
+ul.people {list-style-type:none;}
+textarea.bio {width:300px;height:180px;}
+span.fullname{margin-left:1em;}

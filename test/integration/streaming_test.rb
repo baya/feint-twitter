@@ -28,10 +28,26 @@ class StreamingTest < ActionController::IntegrationTest
   end
 
   test "A user can see their own stream in quasi real-time on their stream page." do
+    enable_javascript
     Follow.create(:star_id => @jack.id, :fans_id => @nancy.id)
     Follow.create(:star_id => @aaron.id, :fans_id => @nancy.id)
-    visit stream_path(@nancy.username)
-    msg1 = @jack.messages.create(:body => "Big man")
+    login_step(@nancy)
+    visit "/home"
+    msg1 = @jack.say("body bi body")
+    assert has_no_content?(msg1.body)
+    sleep(1)
+    msg2 = @aaron.say("BalaBala")
+    # waiting until execute javascript
+    sleep(3)
+    assert has_content?(msg2.body)
+  end
+
+  test "Anyone can visit the home page and view a quasi real-time stream of all messages" do
+    enable_javascript
+    visit "/"
+    assert has_no_content?("kick me")
+    sleep(1)
+    msg1 = @aaron.say("kick me")
     sleep(3)
     assert has_content?(msg1.body)
   end

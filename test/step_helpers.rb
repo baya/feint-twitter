@@ -2,6 +2,7 @@ module StepHelper
 
   def login_step(user)
     visit new_session_path
+    # save_and_open_page
     within("#session") do
       fill_in("username", :with => user.username)
       fill_in("password", :with => "123456")

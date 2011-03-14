@@ -6,17 +6,18 @@
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
     <title>OFTwitter Test</title>
     <%= stylesheet_link_tag 'application' %>
+    <%= stylesheet_link_tag 'twitter' %>
   </head>
   <body>
     <p style="color: green"><%= flash[:notice] %></p>
     <div id="wrapper">
       <div id="header">
-        <h1>OFTwitter Test</h1>
+        <h1><%= link_to "OFTwitter Test", root_path %></h1>
       </div>
       <div id="nav">
         <ul>
           <% if current_user %>
-            <li><%=link_to current_user.full_name, stream_path(current_user.username) %></li>
+            <li><%=link_to current_user.full_name, home_path %></li>
             <li><%=link_to "account setting", edit_user_path(current_user.to_param) %></li>
             <li><%=link_to "Logout", session_path, :method => "delete" %></li>
           <% else %>

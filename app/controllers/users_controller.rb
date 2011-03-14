@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   before_filter :authenticate, :only => [:edit, :update]
 
   def show
+
   end
 
   def new
@@ -15,7 +16,12 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
-    @user.save ? redirect_to(@user) : render(:action => "new")
+    if @user.save
+      self.current_user = @user
+      redirect_to(@user)
+    else
+      render(:action => "new")
+    end
   end
 
   def update

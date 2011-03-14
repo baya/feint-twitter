@@ -1,24 +1,26 @@
+<%= javascript_include_tag "xmlhttp" %>
+<%= javascript_include_tag "realstream" %>
 
 <div id="say-box">
   <% form_tag "/messages", :method => "post" do %>
-    <textarea name="message"></textarea>
-    <%= submit_tag "submit" %>
+    <div class="msg-text">
+      <textarea name="message"></textarea>
+    </div>
+    <%= submit_tag "submit", :class => "submit" %>
   <% end %>
 </div>
 
 <div id="mb">
   <h1>Messages</h1>
-  <div class="msg-box">
+  <div class="msg-box" id="msg-list">
     <% @messages.each do |message| %>
       <div class="msg">
-        <div>
-          <% if user = message.user %>
-            <%= link_to user.username, stream_path(user.username) %>
-          <% else %>
-            <span>黎明</span>
-          <% end %>
-          <p><%=h message.body %></p>
-        </div>
+        <% if user = message.user %>
+          <span class="user-name"><%= link_to user.username, stream_path(user.username) %></span>
+        <% else %>
+          <span>黎明</span>
+        <% end %>
+        <span class="msg-content"><%=h message.body %></span>
       </div>
     <% end %>
   </div>
@@ -27,3 +29,14 @@
   <%= render :partial => "stars", :locals => {:user => @current_user } %>
   <%= render :partial => "fans", :locals => {:user => @current_user } %>
 </div>
+
+<script>
+  var user_id = "<%= current_user.id.to_json %>";
+  var c_time = <%= DateTime.now.utc.to_s(:db).to_json %>;
+  var base_url = "/messages/realtime";
+  getRealTimeStream(3, base_url, {
+    user_id: user_id,
+    c_time:  c_time
+  });
+
+</script>

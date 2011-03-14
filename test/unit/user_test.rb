@@ -75,11 +75,42 @@ class UserTest < ActiveSupport::TestCase
     Follow.create(:star_id => @aaron.id, :fans_id => @nancy.id)
     Follow.create(:star_id => @jack.id, :fans_id => @nancy.id)
     msg1 = @jack.say("BalaBala")
+    b_time = Time.now - 8.hours
+    sleep(1)
     msg2 = @aaron.say("GoGola")
     assert @jack.stream_msgs.include?(msg1)
     assert @aaron.stream_msgs.include?(msg2)
     assert @nancy.stream_msgs.include?(msg1)
     assert @nancy.stream_msgs.include?(msg2)
+    assert @nancy.stream_msgs(:conditions => ["messages.created_at <= ? ", b_time]).include?(msg1)
+    assert !@nancy.stream_msgs(:conditions => ["messages.created_at < ? ", b_time]).include?(msg2)
+    assert @nancy.stream_msgs(:conditions => ["messages.created_at > ? ", b_time]).include?(msg2)
+    msg3 = @aaron.say("JJJ")
+    msgs = @nancy.stream_msgs(:conditions => ["messages.created_at > ? ", b_time], :limit => 1)
+    assert_equal msgs.size, 1
+    msgs = @nancy.stream_msgs(:conditions => ["messages.created_at > ? ", b_time], :limit => 2, :include => :user)
+    assert_equal msgs.size, 2
+    assert_equal msgs.map(&:username), [@aaron.username, @aaron.username]
+  end
+
+  test "avatar configures" do
+    User.class_eval {
+      avatar_config :storage_path => File.join(*[Rails.root.to_s, "public", "pavatar"]),
+      :max_size => 2.megabyte
+    }
+    assert_equal @nancy.avatar_options[:storage_path], File.join(*[Rails.root.to_s, "public", "pavatar"])
+    assert_equal @nancy.avatar_options[:max_size], 2.megabyte
+  end
+
+  test "id to name path" do
+    assert_equal @nancy.id_to_namepath, id_to_namepath(@nancy)
+    assert_equal @nancy.avatar_url, @nancy.avatar_options[:storage_path].sub(File.join(Rails.root.to_s, "public"), '') + @nancy.id_to_namepath
+    puts @nancy.id_to_namepath
+  end
+
+  def id_to_namepath(user)
+    num_str = user.id.to_s.size % 2 == 0 ? user.id.to_s : "0" + user.id.to_s
+    "/" + num_str.scan(/\d{2}/).join("/")
   end
 
   def follow_background

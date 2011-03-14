@@ -1,3 +1,8 @@
+
+<p>
+  <%= image_tag @user.avatar_url %>
+</p>
+
 <p>
   <b>Login Name:</b>
   <%=h @user.username %>
@@ -18,5 +23,3 @@
   <%=h @user.email %>
 </p>
 
-
-<%= link_to 'Edit', edit_user_path(@user) %> |

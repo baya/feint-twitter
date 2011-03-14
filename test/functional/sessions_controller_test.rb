@@ -40,6 +40,13 @@ class SessionsControllerTest < ActionController::TestCase
     assert_redirected_to stream_path("kame")
   end
 
+  test "should logout" do
+    delete :destroy
+    assert_equal session[:user_id], nil
+    assert_equal assigns[:current_user], nil
+    assert_redirected_to "/"
+  end
+
   def store_location(location)
     session[:forward] = location
   end

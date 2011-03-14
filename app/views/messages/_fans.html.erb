@@ -1,8 +1,14 @@
 <div class="fans">
-  <h2>People You Following</h2>
-  <ul>
-    <% user.fans.each do |fan| %>
-      <li><%=link_to fan.username, stream_path(fan.username) %></li>
-    <% end %>
-  </ul>
+  <% if current_user == user %>
+    <h2>Whom Following You</h2>
+  <% else %>
+    <h2>Whom Following <%=h user.full_name %></h2>
+  <% end %>
+  <% unless user.fans.blank? %>
+    <ul class="people">
+      <% user.fans.each do |fan| %>
+        <li><%=link_to fan.username, stream_path(fan.username) %></li>
+      <% end %>
+    </ul>
+  <% end %>
 </div>

@@ -58,7 +58,7 @@ class FollowingTest < ActionController::IntegrationTest
   test "A user in his stream page will not see any follow or unfollow button" do
     login_step(@nancy)
     visit stream_path(@nancy.username)
-    save_and_open_page
+    # save_and_open_page
     assert has_no_button?("follow")
     assert has_no_button?("unfollow")
   end

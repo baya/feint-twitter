@@ -15,6 +15,16 @@ class MessagesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:messages)
   end
 
+  test "should get rt response json if js request" do
+    msg1 = @nancy.say("jqueryjquery")
+    c_time = Time.now.utc.to_s(:db)
+    sleep(2)
+    msg = @nancy.say("dojodojo")
+    xhr :get, :realtime, { :user_id => @nancy.id, :c_time => c_time}
+    assert_equal @response.body, msg.to_json(:methods => :username)
+    assert_response :success
+  end
+
   test "should create message if user authenticated" do
     login(@nancy)
     assert_difference('Message.count') do

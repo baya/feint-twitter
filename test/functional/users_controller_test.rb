@@ -18,7 +18,8 @@ class UsersControllerTest < ActionController::TestCase
     assert_difference('User.count') do
       post :create, :user => { :username => "tony", :full_name => "Tony Guy", :bio => "good man", :email => "tony@t.com", :password => "123456", :password_confirmation => "123456"}
     end
-
+    assert_equal session[:user_id], assigns(:user).id
+    assert_equal assigns(:current_user), assigns(:user)
     assert_redirected_to user_path(assigns(:user))
   end
 

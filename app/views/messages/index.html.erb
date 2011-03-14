@@ -1,18 +1,28 @@
-<h1>Listing messages</h1>
+<%= javascript_include_tag "xmlhttp" %>
+<%= javascript_include_tag "realstream" %>
 
-<table>
-  <tr>
-    <th>Body</th>
-    <th>User</th>
-  </tr>
+<div id="mb">
+  <h1>People Are Saying </h1>
+  <div class="msg-box" id="msg-list">
+    <% @messages.each do |message| %>
+      <div class="msg">
+        <% if user = message.user %>
+          <span class="user-name"><%= link_to user.username, stream_path(user.username) %></span>
+        <% else %>
+          <span>黎明</span>
+        <% end %>
+        <span class="msg-content"><%=h message.body %></span>
+      </div>
+    <% end %>
+  </div>
+</div>
 
-<% @messages.each do |message| %>
-  <tr>
-    <td><%=h message.body %></td>
-    <td><%=h message.user.try(:username) %></td>
-    <td><%= link_to 'Show', message %></td>
-  </tr>
-<% end %>
-</table>
+<script>
+  var c_time = <%= DateTime.now.utc.to_s(:db).to_json %>;
+  var base_url = "/messages/realtime";
+  getRealTimeStream(3, base_url, {
+    c_time:  c_time
+  });
 
-<br />
+</script>
+

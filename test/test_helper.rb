@@ -1,7 +1,7 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
-require 'capybara'
+require 'capybara_unit'
 require 'capybara/rails'
 require 'capybara/session'
 require 'capybara/envjs'
@@ -9,9 +9,15 @@ require 'factory_girl'
 require 'factories'
 require 'step_helpers'
 
+Capybara.javascript_driver = :envjs
+Capybara.default_selector = :css
+# Capybara.default_wait_time = 3
+
 class ActiveSupport::TestCase
   include Capybara
+  include Capybara::Unit
   include StepHelper
+
   # Transactional fixtures accelerate your tests by wrapping each test method
   # in a transaction that's rolled back on completion.  This ensures that the
   # test database remains unchanged so your fixtures don't have to be reloaded
@@ -56,6 +62,10 @@ class ActiveSupport::TestCase
 
   def logout
     session[:user_id] = nil
+  end
+
+  def image_path(image_name)
+    Rails.root.to_s + "/public/images" + "/" + image_name
   end
 
 end

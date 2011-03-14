@@ -7,6 +7,11 @@ module ApplicationHelper
       app.send(:helper_method, :current_user)
     end
 
+    def current_user= user
+      @current_user = user
+      session[:user_id] = user.nil? ? nil : user.id
+    end
+
     private
 
     def current_user

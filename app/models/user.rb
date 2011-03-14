@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+  include Ravatar
+  avatar_config :storage_path => File.join(*[Rails.root.to_s, "public", "gavatars"])
+
   has_many :messages
 
   validates_uniqueness_of :username, :email
@@ -19,8 +22,10 @@ class User < ActiveRecord::Base
     Follow.find(:first, :conditions => { :star_id => star.id, :fans_id => self.id}) ? true : false
   end
 
-  def stream_msgs
-    Message.find(:all, :joins => "INNER JOIN streams ON streams.message_id = messages.id AND streams.user_id = #{self.id}")
+  def stream_msgs(find_hash={ })
+    find_hash = find_hash.merge(:joins => "INNER JOIN streams ON streams.message_id = messages.id AND streams.user_id = #{self.id}")
+    find_hash[:order] ||= "created_at DESC"
+    Message.find(:all, find_hash)
   end
 
   def say(msg_text)

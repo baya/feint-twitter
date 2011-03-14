@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
 
   def new
+
   end
 
   def create
@@ -15,6 +16,11 @@ class SessionsController < ApplicationController
     else
       render_action_with_notice("new", "username does not exist")
     end
+  end
+
+  def destroy
+    self.current_user = nil
+    redirect_to "/"
   end
 
   private
