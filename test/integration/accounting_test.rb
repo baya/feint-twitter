@@ -40,7 +40,8 @@ class AccountingTest < ActionController::IntegrationTest
   test "A user can edit their account information of their stream page" do
     login_step(@nancy)
     visit stream_path(@nancy.username)
-    click_link("account setting")
+    click_link("Account Setting")
+    click_link("Edit")
     fill_in("user[bio]", :with => "HaHa")
     fill_in("user[email]", :with => "test@gmail.com")
     fill_in("user[full_name]", :with => "kame chen")

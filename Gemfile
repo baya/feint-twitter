@@ -2,7 +2,7 @@
 source 'http://rubygems.org'
 
 gem 'rails', '2.3.4'
-gem 'mysql2','0.2.6'
+gem 'mysql', '2.8.1'
 gem 'sqlite3-ruby', :require => 'sqlite3'
 
 # Bundle gems for the local environment. Make sure to
@@ -10,12 +10,9 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 # and rake tasks are available in development mode:
 group :development, :test do
   gem 'rspec-rails'
-  gem 'cucumber-rails'
-  gem 'rcov'
   gem 'webrat'
-  gem 'watchr'
-  gem 'spork', '~> 0.9.0.rc'
-  gem 'launchy'
+  gem 'capybara', '0.4.0'
+  gem 'capybara-envjs', '0.4.0'
+  gem 'factory_girl', '1.3.2'
   gem 'rack-test'
-  gem 'warden'
 end

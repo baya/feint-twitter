@@ -7,7 +7,10 @@
   <% unless user.fans.blank? %>
     <ul class="people">
       <% user.fans.each do |fan| %>
-        <li><%=link_to fan.username, stream_path(fan.username) %></li>
+        <li>
+          <%=link_to image_tag(fan.avatar_url), stream_path(fan.username) %><br/>
+          <%=link_to fan.username, stream_path(fan.username) %>
+        </li>
       <% end %>
     </ul>
   <% end %>
