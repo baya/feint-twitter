@@ -105,14 +105,14 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "id to name path" do
-    diskfile_path = File.join(@nancy.avatar_options[:storage_path], @nancy.id_to_namepath)
+    diskfile_path = File.join(@nancy.avatar_options[:storage_path], @nancy.id_to_namepath + "_origin")
     save_dir = File.dirname(diskfile_path)
     unless File.directory?(save_dir)
       FileUtils.mkdir_p(save_dir)
     end
     FileUtils.touch(diskfile_path) unless File.exist?(diskfile_path)
     assert_equal @nancy.id_to_namepath, id_to_namepath(@nancy)
-    assert_equal @nancy.avatar_url, @nancy.avatar_options[:storage_path].sub(File.join(Rails.root.to_s, "public"), '') + @nancy.id_to_namepath
+    assert_equal @nancy.avatar_url(:style => "origin"), @nancy.avatar_options[:storage_path].sub(File.join(Rails.root.to_s, "public"), '') + @nancy.id_to_namepath + "_origin"
     puts @nancy.id_to_namepath
   end
 

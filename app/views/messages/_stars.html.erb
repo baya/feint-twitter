@@ -8,7 +8,7 @@
     <ul class="people">
       <% user.stars.each do |star| %>
         <li>
-          <%=link_to image_tag(star.avatar_url), stream_path(star.username) %><br/>
+          <%=link_to image_tag(star.avatar_url_thumb), stream_path(star.username) %><br/>
           <%=link_to star.username, stream_path(star.username) %>
         </li>
       <% end %>

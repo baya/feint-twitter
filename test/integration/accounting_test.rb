@@ -53,11 +53,5 @@ class AccountingTest < ActionController::IntegrationTest
     assert_equal @nancy.full_name, "kame chen"
   end
 
-  def upload_avatar_step(user, avatar_name)
-    login_step(user)
-    visit edit_user_path(user)
-    attach_file "user[image]", image_path(avatar_name)
-    click_button "Update"
-  end
 
 end
