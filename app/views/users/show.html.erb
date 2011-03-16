@@ -1,7 +1,12 @@
 
-<p>
-  <%= image_tag @user.avatar_url %>
-</p>
+<div class="avatarinfo">
+  <%= image_tag @user.avatar_url_medium %>
+  <p>
+    <strong>Change your icon <a href="http://gravatar.com">gravtar.com</a></strong>
+    We are now using <%= h @user.email %>
+  </p>
+
+</div>
 
 <p>
   <b>Login Name:</b>
@@ -23,3 +28,4 @@
   <%=h @user.email %>
 </p>
 
+<%= link_to "Edit", edit_user_path(@user.to_param)%>

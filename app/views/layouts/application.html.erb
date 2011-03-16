@@ -18,7 +18,7 @@
         <ul>
           <% if current_user %>
             <li><%=link_to current_user.full_name, home_path %></li>
-            <li><%=link_to "account setting", edit_user_path(current_user.to_param) %></li>
+            <li><%=link_to "Account Setting", user_path(current_user.to_param) %></li>
             <li><%=link_to "Logout", session_path, :method => "delete" %></li>
           <% else %>
           <li><%= link_to 'Login', '/session/new' %></li>

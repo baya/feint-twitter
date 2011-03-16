@@ -1,7 +1,6 @@
 class User < ActiveRecord::Base
-  include Ravatar
+  include UsersHelper::Ravatar
   avatar_config :storage_path => File.join(*[Rails.root.to_s, "public", "gavatars"])
-
   has_many :messages
 
   validates_uniqueness_of :username, :email

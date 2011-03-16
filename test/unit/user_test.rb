@@ -5,11 +5,12 @@ class UserTest < ActiveSupport::TestCase
 
   def setup
     @man_hash = { :username => "eeros", :email => "jim@test.com", :bio => "bad man", :password => "123456"}
-    @nancy = Factory(:user, :username => "nancy")
+    @nancy = Factory(:user, :username => "nancy", :email => "nancy@mail.com")
     @kame = Factory(:user, :username => "kame")
     @jack = Factory(:user, :username => "jack")
     @aaron = Factory(:user, :username => "aaron")
     @zh_man = Factory(:user, :username => "张三风")
+    @gravatar_api = "http://www.gravatar.com/avatar"
   end
 
   test "has many messages" do
@@ -100,12 +101,26 @@ class UserTest < ActiveSupport::TestCase
     }
     assert_equal @nancy.avatar_options[:storage_path], File.join(*[Rails.root.to_s, "public", "pavatar"])
     assert_equal @nancy.avatar_options[:max_size], 2.megabyte
+    assert_equal @nancy.avatar_options[:avatar_api], @gravatar_api
   end
 
   test "id to name path" do
+    diskfile_path = File.join(@nancy.avatar_options[:storage_path], @nancy.id_to_namepath + "_origin")
+    save_dir = File.dirname(diskfile_path)
+    unless File.directory?(save_dir)
+      FileUtils.mkdir_p(save_dir)
+    end
+    FileUtils.touch(diskfile_path) unless File.exist?(diskfile_path)
     assert_equal @nancy.id_to_namepath, id_to_namepath(@nancy)
-    assert_equal @nancy.avatar_url, @nancy.avatar_options[:storage_path].sub(File.join(Rails.root.to_s, "public"), '') + @nancy.id_to_namepath
+    assert_equal @nancy.avatar_url(:style => "origin"), @nancy.avatar_options[:storage_path].sub(File.join(Rails.root.to_s, "public"), '') + @nancy.id_to_namepath + "_origin"
     puts @nancy.id_to_namepath
+  end
+
+  test "user use gravatar url if user not upload image" do
+    FileUtils.rm_r(@nancy.avatar_options[:storage_path]) if File.directory?(@nancy.avatar_options[:storage_path])
+    options = { :size => 200, :default => "wavatar"}
+    email = @nancy.email.strip.downcase
+    assert_equal @nancy.avatar_url(options), @gravatar_api + "/" + Digest::MD5.hexdigest(@nancy.email) + "?" + options.to_param
   end
 
   def id_to_namepath(user)

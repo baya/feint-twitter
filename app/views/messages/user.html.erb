@@ -1,7 +1,7 @@
 
 <div id="u-diag">
   <div class="bio">
-    <%= image_tag @user.avatar_url, :class => "avatar" %>
+    <%= image_tag @user.avatar_url_medium, :class => "avatar" %>
     <div class="bio-text">
       <p><%=h @user.bio %></p>
     </div>
@@ -25,7 +25,10 @@
   <div class="msg-box" id="msg-list">
     <% @messages.each do |msg| %>
       <div class="msg">
-        <p><%=link_to @user.username, stream_path(@user.username) %><span><%=h msg.body %></span></p>
+        <span class="user-name">
+          <%= link_to image_tag(@user.avatar_url_thumb), stream_path(@user.username) %>
+        </span>
+        <span class="msg-content"><%=h msg.body %></span>
       </div>
     <% end %>
   </div>

@@ -10,6 +10,13 @@ module StepHelper
     click_button("Login")
   end
 
+  def upload_avatar_step(user, avatar_name)
+    login_step(user)
+    visit edit_user_path(user)
+    attach_file "user[image]", image_path(avatar_name)
+    click_button "Update"
+  end
+
   def follow_stream_step(user)
     visit stream_path(user.username)
     click_button("follow")

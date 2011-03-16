@@ -10,10 +10,11 @@ div.field{margin-top:8px;}
 div#content{position:relative;}
 div#say-box textarea{width:468px;height:80px;}
 div#mb{width:550px;}
-div#r-pannel{width:350px;margin-left:540px;position:absolute;top:140px;}
+div#r-pannel{width:350px;margin-left:540px;position:absolute;top:116px;}
 
 div.msg{margin:8px;}
-span.user-name{width:2em;margin-right:1em;float:left;}
+span.user-name{margin-right:1em;}
+span.msg-content {margin-left:1em;}
 
 ul.people {list-style-type:none;}
 textarea.bio {width:300px;height:180px;}
