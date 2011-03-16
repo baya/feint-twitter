@@ -5,12 +5,7 @@ class AvataringTest < ActionController::IntegrationTest
 
   def setup
     @nancy = Factory(:user, :username => "nancy")
-  end
-
-  def teardown
-    File.delete(@nancy.diskfile_path(:origin)) if File.exist?(@nancy.diskfile_path(:origin))
-    File.delete(@nancy.diskfile_path(:thumb)) if File.exist?(@nancy.diskfile_path(:thumb))
-    File.delete(@nancy.diskfile_path(:medium)) if File.exist?(@nancy.diskfile_path(:medium))
+    clear_files_of(@nancy)
   end
 
   test "user upload a valid image, will has three images origin, 58X58>, 140X140>" do
@@ -40,13 +35,17 @@ class AvataringTest < ActionController::IntegrationTest
   test "user upload a invalid format image, will fail" do
     image_path = File.join(*[Rails.root.to_s, "public", "images", "invalid.txt"])
     upload_avatar_step(@nancy, "invalid.txt")
-    puts "+++++++++++++++++"
-    puts @nancy.diskfile_path(:origin)
     assert !File.exist?(@nancy.diskfile_path(:origin))
     assert !File.exist?(@nancy.diskfile_path(:thumb))
     assert !File.exist?(@nancy.diskfile_path(:medium))
     assert !(@nancy.avatar_url(:style => "thumb") =~ /thumb/)
     assert !(@nancy.avatar_url(:style => "medium") =~ /medium/)
+  end
+
+  def clear_files_of(user)
+    File.delete(user.diskfile_path(:origin)) if File.exist?(user.diskfile_path(:origin))
+    File.delete(user.diskfile_path(:thumb)) if File.exist?(user.diskfile_path(:thumb))
+    File.delete(user.diskfile_path(:medium)) if File.exist?(user.diskfile_path(:medium))
   end
 
 end
